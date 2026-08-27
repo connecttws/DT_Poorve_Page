@@ -1,12 +1,27 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2, ChevronDown, Utensils, Apple, Activity, HeartPulse, Play } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronDown, Utensils, Apple, Activity, HeartPulse, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollCarousel = (direction: "left" | "right") => {
+    if (carouselRef.current) {
+      const firstChild = carouselRef.current.children[0] as HTMLElement;
+      const cardWidth = firstChild ? firstChild.offsetWidth : 300;
+      const gap = 16; // 1rem (gap-4)
+      const scrollAmount = cardWidth + gap;
+      carouselRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
+
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
@@ -106,14 +121,54 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="max-w-3xl mx-auto text-center"
+            className="max-w-5xl mx-auto text-center"
           >
-            <motion.h2 variants={fadeIn} className="text-2xl md:text-4xl font-bold text-stone-900 mb-6">
+            <motion.h2 variants={fadeIn} className="text-2xl md:text-4xl font-bold text-stone-900 mb-10 lg:mb-14">
               Our Approach
             </motion.h2>
-            <motion.p variants={fadeIn} className="text-lg md:text-xl text-stone-600 leading-relaxed text-balance">
-              At <span className="text-brand-700 font-semibold">Decoded Diet By Poorvi</span>, we provide personalised nutrition guidance to help you make practical changes to your everyday eating habits. Whether your goal is weight loss, better blood sugar management or nutrition support while managing thyroid-related concerns, your plan is built around your individual needs — not a generic diet chart.
-            </motion.p>
+            
+            <div className="relative w-full overflow-hidden py-4">
+              {/* Fade overlays for smooth entry/exit */}
+              <div className="absolute top-0 left-0 w-8 md:w-24 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-8 md:w-24 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+              
+              <motion.div 
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ ease: "linear", duration: 25, repeat: Infinity }}
+                className="flex gap-4 md:gap-6 w-max"
+              >
+                {[
+                  { icon: "🥗", title: "Personalised Nutrition" },
+                  { icon: "⚖️", title: "Sustainable Weight Management" },
+                  { icon: "🩸", title: "Blood Sugar Support" },
+                  { icon: "🦋", title: "Thyroid Nutrition Support" },
+                  { icon: "🥗", title: "Personalised Nutrition" },
+                  { icon: "⚖️", title: "Sustainable Weight Management" },
+                  { icon: "🩸", title: "Blood Sugar Support" },
+                  { icon: "🦋", title: "Thyroid Nutrition Support" },
+                  { icon: "🥗", title: "Personalised Nutrition" },
+                  { icon: "⚖️", title: "Sustainable Weight Management" },
+                  { icon: "🩸", title: "Blood Sugar Support" },
+                  { icon: "🦋", title: "Thyroid Nutrition Support" },
+                  { icon: "🥗", title: "Personalised Nutrition" },
+                  { icon: "⚖️", title: "Sustainable Weight Management" },
+                  { icon: "🩸", title: "Blood Sugar Support" },
+                  { icon: "🦋", title: "Thyroid Nutrition Support" }
+                ].map((item, i) => (
+                  <div 
+                    key={i} 
+                    className="flex items-center gap-4 p-4 md:p-5 rounded-[1.5rem] bg-white border border-sky-100 hover:border-sky-300 hover:shadow-lg hover:shadow-sky-100 transition-all duration-300 group w-[260px] md:w-[320px] shrink-0"
+                  >
+                    <div className="w-14 h-14 shrink-0 rounded-2xl bg-sky-50/50 border border-sky-50 flex items-center justify-center text-2xl shadow-sm group-hover:scale-110 transition-transform duration-300">
+                      {item.icon}
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-stone-900 leading-tight text-left">
+                      {item.title}
+                    </h3>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -238,29 +293,60 @@ export default function Home() {
               <motion.h2 variants={fadeIn} className="text-3xl md:text-5xl font-bold text-stone-900 mb-6 leading-tight">
                 What Exactly Do We Help You With?
               </motion.h2>
-              <motion.p variants={fadeIn} className="text-xl text-stone-600 mb-8 leading-relaxed">
+              <motion.p variants={fadeIn} className="text-base md:text-lg text-stone-600 mb-8 leading-relaxed">
                 This is not just about giving you a diet chart and asking you to follow it. We help you understand what to eat, how to eat, what to change, and how to build healthier eating habits that fit your lifestyle.
               </motion.p>
               
-              <div className="space-y-8">
-                {[
-                  { icon: "🥗", title: "Personalised Meal Planning", desc: "Get meal and food guidance tailored to your goals, lifestyle, food preferences, routine, and individual needs, rather than following a generic diet chart." },
-                  { icon: "🍽️", title: "Better Food Choices", desc: "Learn what foods and meal combinations may work better for your goals, while making practical choices with the foods you already eat." },
-                  { icon: "⚖️", title: "Portion & Meal Guidance", desc: "Understand how much to eat, how to structure your meals, and how to create a more balanced eating routine without unnecessary restriction." },
-                  { icon: "🕐", title: "Nutrition Around Your Lifestyle", desc: "Your nutrition plan should work with your actual life — your work schedule, family meals, travel, social occasions, and daily routine." },
-                  { icon: "🔄", title: "Improve Your Eating Habits", desc: "Identify the eating habits that may be making your goals harder to achieve and gradually replace them with more sustainable habits." },
-                  { icon: "🎯", title: "Goal-Based Nutrition Support", desc: "Whether your primary goal is weight loss, healthier eating, thyroid-related nutrition support, or blood sugar management, your nutrition approach is built around your specific requirements." }
-                ].map((item, i) => (
-                  <motion.div key={i} variants={fadeIn} className="flex gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-stone-50 flex items-center justify-center text-2xl shrink-0 shadow-sm border border-stone-100">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold text-stone-900 mb-2">{item.title}</h4>
-                      <p className="text-stone-600 leading-relaxed">{item.desc}</p>
-                    </div>
-                  </motion.div>
-                ))}
+              <div className="flex flex-col items-center lg:items-start w-full">
+                <div className="relative group/carousel w-[280px] sm:w-[320px]">
+                  <div 
+                    ref={carouselRef}
+                    className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 pt-2 scrollbar-hide"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  >
+                    {[
+                      { icon: "🥗", title: "Personalised Meal Planning", desc: "Get meal and food guidance tailored to your goals, lifestyle, food preferences, routine, and individual needs, rather than following a generic diet chart." },
+                      { icon: "🍽️", title: "Better Food Choices", desc: "Learn what foods and meal combinations may work better for your goals, while making practical choices with the foods you already eat." },
+                      { icon: "⚖️", title: "Portion & Meal Guidance", desc: "Understand how much to eat, how to structure your meals, and how to create a more balanced eating routine without unnecessary restriction." },
+                      { icon: "🕐", title: "Nutrition Around Your Lifestyle", desc: "Your nutrition plan should work with your actual life — your work schedule, family meals, travel, social occasions, and daily routine." },
+                      { icon: "🔄", title: "Improve Your Eating Habits", desc: "Identify the eating habits that may be making your goals harder to achieve and gradually replace them with more sustainable habits." },
+                      { icon: "🎯", title: "Goal-Based Nutrition Support", desc: "Whether your primary goal is weight loss, healthier eating, thyroid-related nutrition support, or blood sugar management, your nutrition approach is built around your specific requirements." }
+                    ].map((item, i) => (
+                      <div key={i} className="w-[280px] sm:w-[320px] shrink-0 snap-center">
+                        <motion.div 
+                          variants={fadeIn} 
+                          className="bg-stone-50/50 p-6 sm:p-8 rounded-[1.5rem] border border-stone-100 hover:shadow-lg hover:shadow-stone-200/50 hover:bg-white transition-all duration-300 group flex flex-col gap-4 items-center justify-center w-full h-full"
+                        >
+                          <div className="w-16 h-16 shrink-0 rounded-xl bg-white border border-stone-100/50 shadow-sm flex items-center justify-center text-3xl group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300">
+                            {item.icon}
+                          </div>
+                          <div className="text-center">
+                            <h4 className="text-lg sm:text-xl font-bold text-stone-900 mb-2 leading-tight">{item.title}</h4>
+                            <p className="text-sm sm:text-base text-stone-600 leading-relaxed max-w-sm mx-auto">{item.desc}</p>
+                          </div>
+                        </motion.div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Carousel Controls - Below the cards */}
+                  <div className="flex items-center gap-4 mt-4 lg:mt-6 justify-center">
+                    <button 
+                      onClick={() => scrollCarousel("left")}
+                      className="w-12 h-12 rounded-full bg-white border border-stone-200 flex items-center justify-center text-stone-600 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-all shadow-sm active:scale-95"
+                      aria-label="Previous slide"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <button 
+                      onClick={() => scrollCarousel("right")}
+                      className="w-12 h-12 rounded-full bg-white border border-stone-200 flex items-center justify-center text-stone-600 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-all shadow-sm active:scale-95"
+                      aria-label="Next slide"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </motion.div>
             
