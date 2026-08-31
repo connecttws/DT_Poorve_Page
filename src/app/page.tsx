@@ -52,7 +52,7 @@ export default function Home() {
             </div>
           </div>
           <button className="px-5 py-2.5 bg-stone-900 text-white rounded-full font-medium text-sm hover:bg-stone-800 transition-all shadow-sm flex items-center gap-2">
-            Book Call
+            Talk to Poorvi
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -107,7 +107,7 @@ export default function Home() {
 
             <motion.div variants={fadeIn} transition={{ delay: 0.6 }} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button className="px-8 py-4 bg-stone-900 text-white rounded-full font-medium text-lg hover:bg-stone-800 transition-all hover:shadow-xl hover:-translate-y-1 flex items-center gap-2 w-full sm:w-auto justify-center">
-                Book Your Free Call
+                Talk to Poorvi
                 <ArrowRight className="w-5 h-5" />
               </button>
             </motion.div>
@@ -271,7 +271,7 @@ export default function Home() {
             className="mt-10 lg:mt-12 text-center"
           >
             <button className="px-8 py-4 bg-brand-600 text-white rounded-full font-medium text-lg hover:bg-brand-700 transition-all hover:shadow-xl hover:-translate-y-1 inline-flex items-center gap-2">
-              Book Your Call
+              Talk to Poorvi
               <ArrowRight className="w-5 h-5" />
             </button>
           </motion.div>
@@ -453,7 +453,7 @@ export default function Home() {
               Share your current diet, health goals, eating habits, and challenges with Poorvi. Get clear guidance on what you may need to improve and understand how personalised nutrition support can help you move forward.
             </motion.p>
             <motion.button variants={fadeIn} className="px-10 py-5 bg-stone-900 text-white rounded-full font-medium text-xl hover:bg-stone-800 transition-all hover:shadow-2xl hover:-translate-y-1 inline-flex items-center gap-3">
-              Book Your Free Call
+              Talk to Poorvi
               <ArrowRight className="w-6 h-6" />
             </motion.button>
           </motion.div>
