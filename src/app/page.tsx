@@ -43,7 +43,9 @@ export default function Home() {
       <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-stone-100 transition-all duration-300">
         <div className="container mx-auto px-6 md:px-12 max-w-6xl h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-brand-500 text-white flex items-center justify-center font-bold text-lg shadow-sm">P</div>
+            <div className="w-11 h-11 rounded-full overflow-hidden border border-stone-200 shadow-sm flex items-center justify-center bg-white shrink-0">
+              <Image src="/logo.jpeg" alt="Decoded Diet By Poorvi" width={44} height={44} className="w-full h-full object-cover" />
+            </div>
             <div className="flex flex-col">
               <span className="font-bold text-lg text-stone-900 leading-none">Decoded Diet</span>
               <span className="font-medium text-stone-500 text-sm">By Poorvi</span>
@@ -468,7 +470,8 @@ export default function Home() {
             variants={fadeIn}
             className="text-center mb-10 lg:mb-12"
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-stone-900 mb-4">Frequently Asked Questions</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-2">Still have questions before booking?</h2>
+            <p className="text-brand-600 font-semibold tracking-wider text-sm md:text-base uppercase mb-4">Frequently Asked Questions</p>
             <div className="w-24 h-1 bg-stone-200 mx-auto rounded-full"></div>
           </motion.div>
 
@@ -514,8 +517,8 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-stone-950 py-8 lg:py-12 border-t border-stone-800">
         <div className="container mx-auto px-6 md:px-12 max-w-6xl text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-500 text-white mb-6 font-bold text-xl">
-            P
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white mb-6 overflow-hidden border border-stone-800 shadow-lg">
+            <Image src="/logo.jpeg" alt="Decoded Diet By Poorvi Logo" width={64} height={64} className="w-full h-full object-cover" />
           </div>
           <h2 className="text-2xl font-bold text-white mb-6">Decoded Diet By Poorvi</h2>
           <p className="text-stone-400 mb-8 max-w-2xl mx-auto">
