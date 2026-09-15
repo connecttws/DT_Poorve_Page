@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2, ChevronDown, Utensils, Apple, Activity, HeartPulse, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronDown, Utensils, Apple, Activity, HeartPulse, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useState, useRef } from "react";
 
@@ -88,22 +88,21 @@ export default function Home() {
               Stop Following Random Diets. Start Following a Nutrition Plan Designed for You. Your body, lifestyle, eating habits, and goals are different — so your diet should be, too.
             </motion.p>
             
-          {/* VSL Video Placeholder */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="mt-6 md:mt-12 mb-6 md:mb-12 relative w-full max-w-4xl mx-auto aspect-video bg-stone-200 rounded-3xl shadow-2xl overflow-hidden group cursor-pointer border-8 border-white/80 backdrop-blur-sm"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-stone-800/10 to-stone-900/50 flex items-center justify-center transition-colors group-hover:to-stone-900/60">
-              <div className="w-20 h-20 bg-brand-500 rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
-                <Play className="w-8 h-8 text-white ml-1 fill-white" />
-              </div>
-            </div>
-            <div className="absolute bottom-4 left-4 right-4 md:bottom-8 text-white/90 font-medium flex items-center justify-center drop-shadow-md bg-black/30 backdrop-blur-md py-3 px-6 rounded-xl mx-auto max-w-fit">
-              Watch: How we personalise your nutrition plan
-            </div>
-          </motion.div>
+            {/* VSL Video */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="mt-6 md:mt-12 mb-6 md:mb-12 relative w-full max-w-4xl mx-auto aspect-video bg-stone-900 rounded-3xl shadow-2xl overflow-hidden border-4 md:border-8 border-white/80 backdrop-blur-sm"
+            >
+              <iframe
+                src="https://fast.wistia.net/embed/iframe/8ouix7dnmj?seo=false&videoFoam=true"
+                title="VSL Video"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full border-0"
+              ></iframe>
+            </motion.div>
 
             <motion.div variants={fadeIn} transition={{ delay: 0.6 }} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button className="px-8 py-4 bg-stone-900 text-white rounded-full font-medium text-lg hover:bg-stone-800 transition-all hover:shadow-xl hover:-translate-y-1 flex items-center gap-2 w-full sm:w-auto justify-center">
