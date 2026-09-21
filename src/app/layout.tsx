@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
+import MetaPixel from "@/components/MetaPixel";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,7 +28,10 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${outfit.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-stone-50 text-stone-900">{children}</body>
+      <body className="min-h-full flex flex-col font-sans bg-stone-50 text-stone-900">
+        <MetaPixel />
+        {children}
+      </body>
     </html>
   );
 }
