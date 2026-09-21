@@ -1,13 +1,66 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle2, ChevronDown, Utensils, Apple, Activity, HeartPulse, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronDown, Utensils, Apple, Activity, HeartPulse, ChevronLeft, ChevronRight, Loader2, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+
+type FormStatus = "idle" | "loading" | "success" | "error";
+
+const initialFormData = {
+  fullName: "",
+  phone: "",
+  gender: "",
+  nutritionGoal: "",
+  currentDiet: "",
+  startTime: "",
+  contactTime: "",
+};
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLElement>(null);
+  const [formData, setFormData] = useState(initialFormData);
+  const [formStatus, setFormStatus] = useState<FormStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
+
+  const scrollToForm = () => {
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.fullName.trim() || !formData.phone.trim()) {
+      setErrorMessage("Please fill in your Full Name and Phone Number.");
+      return;
+    }
+    setFormStatus("loading");
+    setErrorMessage("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Something went wrong.");
+      }
+      setFormStatus("success");
+      setFormData(initialFormData);
+      router.push("/thank-you");
+    } catch (err: unknown) {
+      setFormStatus("error");
+      setErrorMessage(err instanceof Error ? err.message : "Failed to submit. Please try again.");
+    }
+  };
 
   const scrollCarousel = (direction: "left" | "right") => {
     if (carouselRef.current) {
@@ -51,8 +104,8 @@ export default function Home() {
               <span className="font-medium text-stone-500 text-sm">By Poorvi</span>
             </div>
           </div>
-          <button className="px-5 py-2.5 bg-stone-900 text-white rounded-full font-medium text-sm hover:bg-stone-800 transition-all shadow-sm flex items-center gap-2">
-            Talk to Poorvi
+          <button onClick={scrollToForm} className="px-5 py-2.5 bg-stone-900 text-white rounded-full font-medium text-sm hover:bg-stone-800 transition-all shadow-sm flex items-center gap-2">
+            Book Your Consultation
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -105,8 +158,8 @@ export default function Home() {
             </motion.div>
 
             <motion.div variants={fadeIn} transition={{ delay: 0.6 }} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button className="px-8 py-4 bg-stone-900 text-white rounded-full font-medium text-lg hover:bg-stone-800 transition-all hover:shadow-xl hover:-translate-y-1 flex items-center gap-2 w-full sm:w-auto justify-center">
-                Talk to Poorvi
+              <button onClick={scrollToForm} className="px-8 py-4 bg-stone-900 text-white rounded-full font-medium text-lg hover:bg-stone-800 transition-all hover:shadow-xl hover:-translate-y-1 flex items-center gap-2 w-full sm:w-auto justify-center">
+                Book Your Consultation
                 <ArrowRight className="w-5 h-5" />
               </button>
             </motion.div>
@@ -269,8 +322,8 @@ export default function Home() {
             variants={fadeIn}
             className="mt-10 lg:mt-12 text-center"
           >
-            <button className="px-8 py-4 bg-brand-600 text-white rounded-full font-medium text-lg hover:bg-brand-700 transition-all hover:shadow-xl hover:-translate-y-1 inline-flex items-center gap-2">
-              Talk to Poorvi
+            <button onClick={scrollToForm} className="px-8 py-4 bg-brand-600 text-white rounded-full font-medium text-lg hover:bg-brand-700 transition-all hover:shadow-xl hover:-translate-y-1 inline-flex items-center gap-2">
+              Book Your Consultation
               <ArrowRight className="w-5 h-5" />
             </button>
           </motion.div>
@@ -451,11 +504,268 @@ export default function Home() {
             <motion.p variants={fadeIn} className="text-lg text-stone-600 mb-8 lg:mb-10 leading-relaxed">
               Share your current diet, health goals, eating habits, and challenges with Poorvi. Get clear guidance on what you may need to improve and understand how personalised nutrition support can help you move forward.
             </motion.p>
-            <motion.button variants={fadeIn} className="px-10 py-5 bg-stone-900 text-white rounded-full font-medium text-xl hover:bg-stone-800 transition-all hover:shadow-2xl hover:-translate-y-1 inline-flex items-center gap-3">
-              Talk to Poorvi
+            <motion.button onClick={scrollToForm} variants={fadeIn} className="px-10 py-5 bg-stone-900 text-white rounded-full font-medium text-xl hover:bg-stone-800 transition-all hover:shadow-2xl hover:-translate-y-1 inline-flex items-center gap-3">
+              Book Your Consultation
               <ArrowRight className="w-6 h-6" />
             </motion.button>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Lead Capture Form Section */}
+      <section ref={formRef} id="booking-form" className="py-12 lg:py-20 bg-gradient-to-b from-stone-50 to-white">
+        <div className="container mx-auto px-6 md:px-12 max-w-3xl">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
+            className="text-center mb-10"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-medium mb-4">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
+              </span>
+              Book Your Free Consultation
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">Tell Us a Little About Yourself</h2>
+            <p className="text-stone-500 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
+              Help Poorvi understand your goals before your call — so she can make the most of your time together.
+            </p>
+          </motion.div>
+
+          {formStatus === "success" ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white rounded-3xl border border-green-100 shadow-lg p-10 text-center"
+            >
+              <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle className="w-10 h-10 text-green-500" />
+              </div>
+              <h3 className="text-2xl font-bold text-stone-900 mb-3">We&apos;ve received your details!</h3>
+              <p className="text-stone-500 text-lg leading-relaxed">
+                Poorvi will reach out to you shortly at the time you&apos;ve selected. We&apos;re looking forward to your conversation!
+              </p>
+            </motion.div>
+          ) : (
+            <motion.form
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeIn}
+              onSubmit={handleSubmit}
+              className="bg-white rounded-3xl shadow-lg border border-stone-100 overflow-hidden"
+            >
+              <div className="divide-y divide-stone-100">
+
+                {/* Q1 — Full Name */}
+                <div className="p-6 md:p-8">
+                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 1</label>
+                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">What is your full name?</p>
+                  <input
+                    type="text"
+                    placeholder="Enter your full name"
+                    value={formData.fullName}
+                    onChange={e => handleInputChange("fullName", e.target.value)}
+                    required
+                    className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-stone-900 text-base transition-all placeholder:text-stone-400"
+                  />
+                </div>
+
+                {/* Q2 — Phone Number */}
+                <div className="p-6 md:p-8">
+                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 2</label>
+                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">What is your phone number?</p>
+                  <input
+                    type="tel"
+                    placeholder="Enter your phone number"
+                    value={formData.phone}
+                    onChange={e => handleInputChange("phone", e.target.value)}
+                    required
+                    className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-stone-900 text-base transition-all placeholder:text-stone-400"
+                  />
+                </div>
+
+                {/* Q3 — Gender */}
+                <div className="p-6 md:p-8">
+                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 3</label>
+                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">What is your gender?</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {["Male", "Female", "Other"].map(opt => (
+                      <label key={opt} className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                        formData.gender === opt
+                          ? "border-brand-500 bg-brand-50"
+                          : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
+                      }`}>
+                        <input
+                          type="radio"
+                          name="gender"
+                          value={opt}
+                          checked={formData.gender === opt}
+                          onChange={e => handleInputChange("gender", e.target.value)}
+                          className="accent-brand-500 w-4 h-4 shrink-0"
+                        />
+                        <span className="font-medium text-stone-800 text-sm">{opt}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Q4 — Nutrition Goal */}
+                <div className="p-6 md:p-8">
+                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 4</label>
+                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">What is your primary nutrition goal?</p>
+                  <div className="flex flex-col gap-3">
+                    {[
+                      "Weight Loss",
+                      "Thyroid Nutrition Support",
+                      "Blood Sugar Management",
+                      "Healthy Eating & Lifestyle",
+                      "Other",
+                    ].map(opt => (
+                      <label key={opt} className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                        formData.nutritionGoal === opt
+                          ? "border-brand-500 bg-brand-50"
+                          : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
+                      }`}>
+                        <input
+                          type="radio"
+                          name="nutritionGoal"
+                          value={opt}
+                          checked={formData.nutritionGoal === opt}
+                          onChange={e => handleInputChange("nutritionGoal", e.target.value)}
+                          className="accent-brand-500 w-4 h-4 shrink-0"
+                        />
+                        <span className="font-medium text-stone-800 text-sm">{opt}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Q5 — Current Diet */}
+                <div className="p-6 md:p-8">
+                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 5</label>
+                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">Are you currently following any diet or nutrition plan?</p>
+                  <div className="flex flex-col gap-3">
+                    {[
+                      "No",
+                      "Yes, a self-planned diet",
+                      "Yes, a diet plan given by someone",
+                      "Other",
+                    ].map(opt => (
+                      <label key={opt} className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                        formData.currentDiet === opt
+                          ? "border-brand-500 bg-brand-50"
+                          : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
+                      }`}>
+                        <input
+                          type="radio"
+                          name="currentDiet"
+                          value={opt}
+                          checked={formData.currentDiet === opt}
+                          onChange={e => handleInputChange("currentDiet", e.target.value)}
+                          className="accent-brand-500 w-4 h-4 shrink-0"
+                        />
+                        <span className="font-medium text-stone-800 text-sm">{opt}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Q6 — When to Start */}
+                <div className="p-6 md:p-8">
+                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 6</label>
+                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">When would you like to start your nutrition journey?</p>
+                  <div className="flex flex-col gap-3">
+                    {[
+                      "As soon as possible",
+                      "Within this week",
+                      "Within the next 2 weeks",
+                      "Just exploring for now",
+                    ].map(opt => (
+                      <label key={opt} className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                        formData.startTime === opt
+                          ? "border-brand-500 bg-brand-50"
+                          : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
+                      }`}>
+                        <input
+                          type="radio"
+                          name="startTime"
+                          value={opt}
+                          checked={formData.startTime === opt}
+                          onChange={e => handleInputChange("startTime", e.target.value)}
+                          className="accent-brand-500 w-4 h-4 shrink-0"
+                        />
+                        <span className="font-medium text-stone-800 text-sm">{opt}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Q7 — Best Contact Time */}
+                <div className="p-6 md:p-8">
+                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 7</label>
+                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">What is the best time to contact you?</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {[
+                      "9 AM – 12 PM",
+                      "12 PM – 3 PM",
+                      "3 PM – 6 PM",
+                      "6 PM – 9 PM",
+                    ].map(opt => (
+                      <label key={opt} className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                        formData.contactTime === opt
+                          ? "border-brand-500 bg-brand-50"
+                          : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
+                      }`}>
+                        <input
+                          type="radio"
+                          name="contactTime"
+                          value={opt}
+                          checked={formData.contactTime === opt}
+                          onChange={e => handleInputChange("contactTime", e.target.value)}
+                          className="accent-brand-500 w-4 h-4 shrink-0"
+                        />
+                        <span className="font-medium text-stone-800 text-sm">{opt}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Error Message */}
+              {(formStatus === "error" || errorMessage) && (
+                <div className="mx-6 md:mx-8 mt-4 p-4 bg-red-50 border border-red-200 rounded-xl">
+                  <p className="text-red-600 text-sm font-medium">{errorMessage || "Something went wrong. Please try again."}</p>
+                </div>
+              )}
+
+              {/* Submit Button */}
+              <div className="p-6 md:p-8 bg-stone-50 border-t border-stone-100">
+                <button
+                  type="submit"
+                  disabled={formStatus === "loading"}
+                  className="w-full py-4 px-8 bg-stone-900 text-white rounded-2xl font-semibold text-lg hover:bg-stone-800 transition-all hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:translate-y-0 flex items-center justify-center gap-3"
+                >
+                  {formStatus === "loading" ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      Book Your Consultation
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
+                </button>
+                <p className="text-center text-stone-400 text-xs mt-3">Your information is private and will only be used to prepare for your consultation call.</p>
+              </div>
+            </motion.form>
+          )}
         </div>
       </section>
 
