@@ -133,7 +133,7 @@ export default function Home() {
               By Poorvi Agarwal | Decoded Diet By Poorvi
             </motion.div>
             
-            <motion.h1 variants={fadeIn} className="text-3xl md:text-6xl lg:text-7xl font-bold tracking-tight text-stone-900 mb-4 md:mb-8 leading-tight">
+            <motion.h1 variants={fadeIn} className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-bold tracking-tight text-stone-900 mb-4 md:mb-8 leading-tight">
               Personalised Nutrition Guidance for <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-accent-600">Weight Loss, Thyroid & Blood Sugar</span> Management
             </motion.h1>
             
