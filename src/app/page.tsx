@@ -104,9 +104,9 @@ export default function Home() {
               <span className="font-medium text-stone-500 text-sm">By Poorvi</span>
             </div>
           </div>
-          <button onClick={scrollToForm} className="px-5 py-2.5 bg-stone-900 text-white rounded-full font-medium text-sm hover:bg-stone-800 transition-all shadow-sm flex items-center gap-2">
-            Book Your Consultation
-            <ArrowRight className="w-4 h-4" />
+          <button onClick={scrollToForm} className="px-3 py-2 sm:px-5 sm:py-2.5 bg-stone-900 text-white rounded-full font-medium text-xs sm:text-sm hover:bg-stone-800 transition-all shadow-sm flex items-center gap-1.5 shrink-0">
+            <span className="whitespace-nowrap">Book Your Consultation</span>
+            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
           </button>
         </div>
       </header>
@@ -504,17 +504,17 @@ export default function Home() {
             <motion.p variants={fadeIn} className="text-lg text-stone-600 mb-8 lg:mb-10 leading-relaxed">
               Share your current diet, health goals, eating habits, and challenges with Poorvi. Get clear guidance on what you may need to improve and understand how personalised nutrition support can help you move forward.
             </motion.p>
-            <motion.button onClick={scrollToForm} variants={fadeIn} className="px-10 py-5 bg-stone-900 text-white rounded-full font-medium text-xl hover:bg-stone-800 transition-all hover:shadow-2xl hover:-translate-y-1 inline-flex items-center gap-3">
-              Book Your Consultation
-              <ArrowRight className="w-6 h-6" />
+            <motion.button onClick={scrollToForm} variants={fadeIn} className="px-6 py-4 md:px-10 md:py-5 bg-stone-900 text-white rounded-full font-medium text-base md:text-xl hover:bg-stone-800 transition-all hover:shadow-2xl hover:-translate-y-1 inline-flex items-center gap-2 md:gap-3">
+              <span className="whitespace-nowrap">Book Your Consultation</span>
+              <ArrowRight className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
             </motion.button>
           </motion.div>
         </div>
       </section>
 
       {/* Lead Capture Form Section */}
-      <section ref={formRef} id="booking-form" className="py-12 lg:py-20 bg-gradient-to-b from-stone-50 to-white">
-        <div className="container mx-auto px-6 md:px-12 max-w-3xl">
+      <section ref={formRef} id="booking-form" className="py-8 lg:py-12 bg-gradient-to-b from-stone-50 to-white">
+        <div className="container mx-auto px-4 md:px-8 max-w-2xl">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -558,66 +558,65 @@ export default function Home() {
               onSubmit={handleSubmit}
               className="bg-white rounded-3xl shadow-lg border border-stone-100 overflow-hidden"
             >
-              <div className="divide-y divide-stone-100">
-
-                {/* Q1 — Full Name */}
-                <div className="p-6 md:p-8">
-                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 1</label>
-                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">What is your full name?</p>
+              {/* Row 1: Q1 Name + Q2 Phone — side by side on desktop */}
+              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-stone-100 border-b border-stone-100">
+                <div className="p-4 md:p-6">
+                  <label className="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-1">Question 1</label>
+                  <p className="text-sm md:text-base font-bold text-stone-900 mb-3">What is your full name?</p>
                   <input
                     type="text"
                     placeholder="Enter your full name"
                     value={formData.fullName}
                     onChange={e => handleInputChange("fullName", e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-stone-900 text-base transition-all placeholder:text-stone-400"
+                    className="w-full px-3 py-2.5 rounded-xl border border-stone-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-stone-900 text-sm transition-all placeholder:text-stone-400"
                   />
                 </div>
-
-                {/* Q2 — Phone Number */}
-                <div className="p-6 md:p-8">
-                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 2</label>
-                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">What is your phone number?</p>
+                <div className="p-4 md:p-6">
+                  <label className="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-1">Question 2</label>
+                  <p className="text-sm md:text-base font-bold text-stone-900 mb-3">What is your phone number?</p>
                   <input
                     type="tel"
                     placeholder="Enter your phone number"
                     value={formData.phone}
                     onChange={e => handleInputChange("phone", e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-stone-900 text-base transition-all placeholder:text-stone-400"
+                    className="w-full px-3 py-2.5 rounded-xl border border-stone-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none text-stone-900 text-sm transition-all placeholder:text-stone-400"
                   />
                 </div>
+              </div>
 
-                {/* Q3 — Gender */}
-                <div className="p-6 md:p-8">
-                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 3</label>
-                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">What is your gender?</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {["Male", "Female", "Other"].map(opt => (
-                      <label key={opt} className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                        formData.gender === opt
-                          ? "border-brand-500 bg-brand-50"
-                          : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
-                      }`}>
-                        <input
-                          type="radio"
-                          name="gender"
-                          value={opt}
-                          checked={formData.gender === opt}
-                          onChange={e => handleInputChange("gender", e.target.value)}
-                          className="accent-brand-500 w-4 h-4 shrink-0"
-                        />
-                        <span className="font-medium text-stone-800 text-sm">{opt}</span>
-                      </label>
-                    ))}
-                  </div>
+              {/* Row 2: Q3 Gender — full width */}
+              <div className="p-4 md:p-6 border-b border-stone-100">
+                <label className="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-1">Question 3</label>
+                <p className="text-sm md:text-base font-bold text-stone-900 mb-3">What is your gender?</p>
+                <div className="grid grid-cols-3 gap-2">
+                  {["Male", "Female", "Other"].map(opt => (
+                    <label key={opt} className={`flex items-center gap-2 p-3 rounded-xl border-2 cursor-pointer transition-all ${
+                      formData.gender === opt
+                        ? "border-brand-500 bg-brand-50"
+                        : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
+                    }`}>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value={opt}
+                        checked={formData.gender === opt}
+                        onChange={e => handleInputChange("gender", e.target.value)}
+                        className="accent-brand-500 w-3.5 h-3.5 shrink-0"
+                      />
+                      <span className="font-medium text-stone-800 text-sm">{opt}</span>
+                    </label>
+                  ))}
                 </div>
+              </div>
 
-                {/* Q4 — Nutrition Goal */}
-                <div className="p-6 md:p-8">
-                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 4</label>
-                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">What is your primary nutrition goal?</p>
-                  <div className="flex flex-col gap-3">
+              {/* Row 3: Q4 Nutrition Goal + Q5 Current Diet — side by side on desktop */}
+              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-stone-100 border-b border-stone-100">
+                <div className="p-4 md:p-6">
+                  <label className="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-1">Question 4</label>
+                  <p className="text-sm md:text-base font-bold text-stone-900 mb-3">What is your primary nutrition goal?</p>
+                  <div className="flex flex-col gap-2">
                     {[
                       "Weight Loss",
                       "Thyroid Nutrition Support",
@@ -625,7 +624,7 @@ export default function Home() {
                       "Healthy Eating & Lifestyle",
                       "Other",
                     ].map(opt => (
-                      <label key={opt} className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                      <label key={opt} className={`flex items-center gap-2.5 p-2.5 rounded-xl border-2 cursor-pointer transition-all ${
                         formData.nutritionGoal === opt
                           ? "border-brand-500 bg-brand-50"
                           : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
@@ -636,26 +635,24 @@ export default function Home() {
                           value={opt}
                           checked={formData.nutritionGoal === opt}
                           onChange={e => handleInputChange("nutritionGoal", e.target.value)}
-                          className="accent-brand-500 w-4 h-4 shrink-0"
+                          className="accent-brand-500 w-3.5 h-3.5 shrink-0"
                         />
-                        <span className="font-medium text-stone-800 text-sm">{opt}</span>
+                        <span className="font-medium text-stone-800 text-xs md:text-sm">{opt}</span>
                       </label>
                     ))}
                   </div>
                 </div>
-
-                {/* Q5 — Current Diet */}
-                <div className="p-6 md:p-8">
-                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 5</label>
-                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">Are you currently following any diet or nutrition plan?</p>
-                  <div className="flex flex-col gap-3">
+                <div className="p-4 md:p-6">
+                  <label className="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-1">Question 5</label>
+                  <p className="text-sm md:text-base font-bold text-stone-900 mb-3">Are you currently following any diet or nutrition plan?</p>
+                  <div className="flex flex-col gap-2">
                     {[
                       "No",
                       "Yes, a self-planned diet",
                       "Yes, a diet plan given by someone",
                       "Other",
                     ].map(opt => (
-                      <label key={opt} className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                      <label key={opt} className={`flex items-center gap-2.5 p-2.5 rounded-xl border-2 cursor-pointer transition-all ${
                         formData.currentDiet === opt
                           ? "border-brand-500 bg-brand-50"
                           : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
@@ -666,26 +663,28 @@ export default function Home() {
                           value={opt}
                           checked={formData.currentDiet === opt}
                           onChange={e => handleInputChange("currentDiet", e.target.value)}
-                          className="accent-brand-500 w-4 h-4 shrink-0"
+                          className="accent-brand-500 w-3.5 h-3.5 shrink-0"
                         />
-                        <span className="font-medium text-stone-800 text-sm">{opt}</span>
+                        <span className="font-medium text-stone-800 text-xs md:text-sm">{opt}</span>
                       </label>
                     ))}
                   </div>
                 </div>
+              </div>
 
-                {/* Q6 — When to Start */}
-                <div className="p-6 md:p-8">
-                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 6</label>
-                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">When would you like to start your nutrition journey?</p>
-                  <div className="flex flex-col gap-3">
+              {/* Row 4: Q6 When to Start + Q7 Contact Time — side by side on desktop */}
+              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-stone-100">
+                <div className="p-4 md:p-6">
+                  <label className="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-1">Question 6</label>
+                  <p className="text-sm md:text-base font-bold text-stone-900 mb-3">When would you like to start your nutrition journey?</p>
+                  <div className="flex flex-col gap-2">
                     {[
                       "As soon as possible",
                       "Within this week",
                       "Within the next 2 weeks",
                       "Just exploring for now",
                     ].map(opt => (
-                      <label key={opt} className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                      <label key={opt} className={`flex items-center gap-2.5 p-2.5 rounded-xl border-2 cursor-pointer transition-all ${
                         formData.startTime === opt
                           ? "border-brand-500 bg-brand-50"
                           : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
@@ -696,26 +695,24 @@ export default function Home() {
                           value={opt}
                           checked={formData.startTime === opt}
                           onChange={e => handleInputChange("startTime", e.target.value)}
-                          className="accent-brand-500 w-4 h-4 shrink-0"
+                          className="accent-brand-500 w-3.5 h-3.5 shrink-0"
                         />
-                        <span className="font-medium text-stone-800 text-sm">{opt}</span>
+                        <span className="font-medium text-stone-800 text-xs md:text-sm">{opt}</span>
                       </label>
                     ))}
                   </div>
                 </div>
-
-                {/* Q7 — Best Contact Time */}
-                <div className="p-6 md:p-8">
-                  <label className="block text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Question 7</label>
-                  <p className="text-lg md:text-xl font-bold text-stone-900 mb-4">What is the best time to contact you?</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-4 md:p-6">
+                  <label className="block text-xs font-bold text-brand-600 uppercase tracking-wider mb-1">Question 7</label>
+                  <p className="text-sm md:text-base font-bold text-stone-900 mb-3">What is the best time to contact you?</p>
+                  <div className="flex flex-col gap-2">
                     {[
                       "9 AM – 12 PM",
                       "12 PM – 3 PM",
                       "3 PM – 6 PM",
                       "6 PM – 9 PM",
                     ].map(opt => (
-                      <label key={opt} className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                      <label key={opt} className={`flex items-center gap-2.5 p-2.5 rounded-xl border-2 cursor-pointer transition-all ${
                         formData.contactTime === opt
                           ? "border-brand-500 bg-brand-50"
                           : "border-stone-200 hover:border-brand-300 hover:bg-stone-50"
@@ -726,14 +723,13 @@ export default function Home() {
                           value={opt}
                           checked={formData.contactTime === opt}
                           onChange={e => handleInputChange("contactTime", e.target.value)}
-                          className="accent-brand-500 w-4 h-4 shrink-0"
+                          className="accent-brand-500 w-3.5 h-3.5 shrink-0"
                         />
-                        <span className="font-medium text-stone-800 text-sm">{opt}</span>
+                        <span className="font-medium text-stone-800 text-xs md:text-sm">{opt}</span>
                       </label>
                     ))}
                   </div>
                 </div>
-
               </div>
 
               {/* Error Message */}
@@ -744,25 +740,25 @@ export default function Home() {
               )}
 
               {/* Submit Button */}
-              <div className="p-6 md:p-8 bg-stone-50 border-t border-stone-100">
+              <div className="p-4 md:p-6 bg-stone-50 border-t border-stone-100">
                 <button
                   type="submit"
                   disabled={formStatus === "loading"}
-                  className="w-full py-4 px-8 bg-stone-900 text-white rounded-2xl font-semibold text-lg hover:bg-stone-800 transition-all hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:translate-y-0 flex items-center justify-center gap-3"
+                  className="w-full py-3 px-6 bg-stone-900 text-white rounded-2xl font-semibold text-base hover:bg-stone-800 transition-all hover:shadow-xl hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:translate-y-0 flex items-center justify-center gap-2"
                 >
                   {formStatus === "loading" ? (
                     <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <Loader2 className="w-4 h-4 animate-spin" />
                       Submitting...
                     </>
                   ) : (
                     <>
                       Book Your Consultation
-                      <ArrowRight className="w-5 h-5" />
+                      <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
-                <p className="text-center text-stone-400 text-xs mt-3">Your information is private and will only be used to prepare for your consultation call.</p>
+                <p className="text-center text-stone-400 text-xs mt-2">Your information is private and will only be used to prepare for your consultation call.</p>
               </div>
             </motion.form>
           )}
